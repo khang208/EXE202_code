@@ -1,0 +1,272 @@
+<div class=" mt-5">
+    <h1 class="text-center mb-4">Tạo hộp quà của bạn</h1>
+
+    <ul class=" container nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link " id="step1-tab" data-bs-toggle="tab" href="/custom-gifts">Bước 1: Chọn sản phẩm</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="step2-tab" data-bs-toggle="tab" href="/custom-gifts/box">Bước 2: Chọn Hộp quà
+                tặng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" id="step3-tab" data-bs-toggle="tab" href="/custom-gifts/mes">Bước 3: Thêm tin
+                nhắn cá nhân</a>
+        </li>
+     
+    </ul>
+
+    <div class="container tab-content">
+        <!-- Tab 2 -->
+        <div class="tab-pane fade show active" id="step3">
+            <h3>Thêm tin nhắn cá nhân</h3>
+
+            <!-- Chọn mẫu thư bằng hình ảnh -->
+            <div class="mb-3">
+                <h5>Chọn mẫu thư:</h5>
+                <p class="template-price">Giá: 5.000VND</p>
+
+                {{!-- <div class="d-flex flex-wrap">
+                    {{#if mess.length}}
+                    {{#each mess}}
+                    <div class="card m-2" style="width: 150px;" onclick="selectTemplate('template1')">
+                        <img src="{{this.image}}" class="card-img-top selected-template" id="template1" alt="Mẫu thư 1">
+
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <p>Thiệp đang hết trong kho</p>
+                    {{/if}} --}}
+
+
+                    {{!-- Tạm --}}
+
+                    <div class="d-flex flex-wrap">
+                        <div class="card m-2" style="width: 150px;" onclick="selectTemplate('template1')">
+                            <img src="https://i.ytimg.com/vi/jRnBvlMUvK0/maxresdefault.jpg"
+                                class="card-img-top selected-template" id="template1" alt="Mẫu thư 1">
+
+                        </div>
+                        <div class="card m-2" style="width: 160px;" onclick="selectTemplate('template2')">
+                            <img src="https://i.ytimg.com/vi/jRnBvlMUvK0/maxresdefault.jpg"
+                                class="card-img-top selected-template" id="template2" alt="Mẫu thư 2">
+
+                        </div>
+                        <div class="card m-2" style="width: 170px;" onclick="selectTemplate('template3')">
+                            <img src="https://i.ytimg.com/vi/jRnBvlMUvK0/maxresdefault.jpg"
+                                class="card-img-top selected-template" id="template3" alt="Mẫu thư 3">
+                        </div>
+                        <div class="card m-2" style="width: 150px;" onclick="selectTemplate('template4')">
+                            <img src="https://i.ytimg.com/vi/jRnBvlMUvK0/maxresdefault.jpg"
+                                class="card-img-top selected-template" id="template4" alt="Mẫu thư 4">
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{!-- --}}
+
+
+                </div>
+            </div>
+
+            <!-- Ô nhập tin nhắn cá nhân -->
+            <textarea class="form-control custom-message" rows="4" id="personal-message"
+                placeholder="Viết tin nhắn của bạn ở đây..."></textarea>
+
+            <div class="text-center mt-3">
+                <a href="/custom-gifts/box">
+                    <button class="btn btn-secondary next" onclick="goToStep(2)">Bước trước</button>
+
+                </a>
+               
+                    <button class="btn btn-success next" onclick="showConfirmation()">Gửi quà tặng</button>
+                   
+ 
+
+
+            </div>
+        </div>
+
+ 
+
+    </div>
+</div>
+
+ 
+
+
+<!-- Modal Xác nhận -->
+<div class="modal" id="confirmationModal" >
+   
+        <div class="modal-content">
+             
+                <h5 class="modal-title" id="confirmationModalLabel">🎁 Gửi quà tặng!</h5>
+              
+          
+            
+            
+                <div id="modal-message">
+                    <p><strong>Sản phẩm đã chọn:</strong></p>
+                    <ul id="selected-products-list"></ul>
+
+                    <p><strong>Hộp quà:</strong> <span id="selected-box">Chưa chọn</span></p>
+                    <p><strong>Thiệp:</strong> <span id="selected-card">Chưa chọn</span></p>
+                    <p><strong>Tin nhắn cá nhân:</strong> <span id="selected-message">Không có</span></p>
+                     <p><strong>Mẫu thiệp đã chọn:</strong></p>
+                    <img id="selected-card" src="https://i.ytimg.com/vi/jRnBvlMUvK0/maxresdefault.jpg" alt="Thiệp đã chọn" style="width: 150px; border: 1px solid #ddd;">
+                   
+                    <p><strong> <br>Tổng số tiền:</strong> <span id="total-price">0 VND</span></p>
+                </div>
+             
+            
+ 
+                <button type="button"   data-dismiss="modal">Đóng</button>
+                <button   id="add-to-cart-btn">Thêm vào giỏ hàng</button>
+            
+         
+    </div>
+</div>
+
+  
+
+
+<script>
+    function showConfirmation() {
+        let modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+         
+        modal.show();
+    }
+
+    
+</script>
+
+
+{{!-- <script>
+    const selectedProducts = [];
+        const selectedGiftBox = {
+            name: null,
+            price: 0
+        };
+        let selectedTemplateImage = ''; // Biến lưu URL hình ảnh của thiệp đã chọn
+        const templatePrice = 5; // Giả sử giá mẫu thiệp là 15.000 VND
+    
+        function updateSelectedProducts() {
+            const products = [
+                { id: 'product1', name: 'Gấu bông nhỏ', price: 30 },
+                { id: 'product2', name: 'Mặt nạ hoa hồng', price: 25 },
+                { id: 'product3', name: 'Kẹp tóc', price: 17 }
+            ];
+            selectedProducts.length = 0;
+    
+            products.forEach(product => {
+                const quantity = parseInt(document.getElementById(${product.id}-quantity).value, 10) || 0;
+                if (quantity > 0) {
+                    selectedProducts.push({
+                        name: product.name,
+                        quantity: quantity,
+                        price: product.price,
+                        total: product.price * quantity
+                    });
+                }
+            });
+    
+            displaySelectedProducts();
+        }
+    
+        function displaySelectedProducts() {
+            const selectedProductsDiv = document.getElementById('selected-products');
+            selectedProductsDiv.innerHTML = '';
+    
+            if (selectedProducts.length === 0) {
+                selectedProductsDiv.innerHTML = '<h5>Chưa có sản phẩm nào được chọn.</h5>';
+            } else {
+                selectedProducts.forEach(product => {
+                    selectedProductsDiv.innerHTML += <p>${product.name} - Số lượng: ${product.quantity} - Tổng: ${product.total.toFixed(3)} VND</p>;
+                });
+            }
+        }
+    
+        function updateSelectedGiftBox(giftBox) {
+            selectedGiftBox.name = giftBox;
+            const giftBoxPrice = giftBox.includes('1') ? 19 : 19; // Bạn có thể điều chỉnh giá tùy theo loại hộp quà
+            selectedGiftBox.price = giftBoxPrice;
+            displaySelectedGiftBox();
+        }
+    
+        function displaySelectedGiftBox() {
+            const selectedGiftBoxDiv = document.getElementById('selected-gift-box');
+            selectedGiftBoxDiv.innerHTML = '';
+    
+            if (selectedGiftBox.name) {
+                selectedGiftBoxDiv.innerHTML = <p>${selectedGiftBox.name} - Giá: ${selectedGiftBox.price.toFixed(3)} VND</p>;
+            } else {
+                selectedGiftBoxDiv.innerHTML = '<h5>Chưa có hộp quà nào được chọn.</h5>';
+            }
+        }
+    
+        function selectTemplate(templateId) {
+            document.querySelectorAll('.selected-template').forEach(img => img.style.border = 'none');
+            const selectedImage = document.getElementById(templateId);
+            selectedImage.style.border = '2px solid #007bff';
+            selectedTemplateImage = selectedImage.src; // Lưu URL của thiệp đã chọn
+        }
+    
+        function goToStep(step) {
+            const tab = new bootstrap.Tab(document.getElementById(step${step}-tab));
+            tab.show();
+        }
+    
+        function submitGift() {
+            const message = document.getElementById('personal-message').value;
+    
+            const totalAmount = selectedProducts.reduce((total, product) => {
+                const quantity = Number(product.quantity) || 0;
+                return total + (product.price * quantity);
+            }, 0);
+    
+            const productsList = selectedProducts.map(product =>
+                <li>${product.name} - Số lượng: ${product.quantity} - Tổng: ${product.total.toFixed(3)} VND</li>
+            ).join('');
+    
+            // Chỉ cộng thêm giá mẫu thiệp nếu đã chọn
+            const totalWithGiftBoxAndTemplate = totalAmount + selectedGiftBox.price + (selectedTemplateImage ? templatePrice : 0);
+    
+            const modalMessage = 
+                <p><strong>Sản phẩm:</strong></p>
+                <ul>${productsList}</ul>
+                <p><strong>Hộp quà:</strong> ${selectedGiftBox.name} - Giá: ${selectedGiftBox.price.toFixed(3)} VND</p>
+                <p><strong>Tin nhắn:</strong> ${message}</p>
+                <p><strong>Tổng số tiền:</strong> ${totalWithGiftBoxAndTemplate.toFixed(3)} VND</p>
+                <p><strong>Mẫu đã chọn:</strong></p>
+                <img src="${selectedTemplateImage}" alt="Thiệp đã chọn" style="width: 150px; border: 1px solid #ddd;">
+            ;
+    
+            document.getElementById('modal-message').innerHTML = modalMessage;
+            document.getElementById('giftModal').style.display = "block";
+        }
+    
+        function closeModal() {
+            document.getElementById('giftModal').style.display = "none";
+        }
+    
+        window.onclick = function (event) {
+            const modal = document.getElementById('giftModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+        function selectTemplate(templateId) {
+            // Bỏ lớp 'selected' khỏi tất cả các mẫu
+            document.querySelectorAll('.selected-template').forEach(img => {
+                img.classList.remove('selected');
+            });
+    
+            // Thêm lớp 'selected' vào mẫu được chọn
+            document.getElementById(templateId).classList.add('selected');
+            selectedTemplateImage = document.getElementById(templateId).src;
+        }
+</script> --}}
