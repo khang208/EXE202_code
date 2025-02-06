@@ -19,13 +19,13 @@ class CartController {
     Product.find({})
       .lean()
       .then((products) => {
-        console.log("Dữ liệu từ MongoDB:", products);
+       // console.log("Dữ liệu từ MongoDB:", products);
         res.render("customGift/customProduct", { products });
       })
       .catch((error) => {
-        console.error("Lỗi truy vấn MongoDB:", error);
-        res.render("customGift/customProduct", { products: [] });
-       // next(error);
+        // console.error("Lỗi truy vấn MongoDB:", error);
+        // res.render("customGift/customProduct", { products: [] });
+        next(error);
       });
   }
 
@@ -147,6 +147,8 @@ class CartController {
   async minus(req, res) {
     const { itemId } = req.body;
     const userId = req.session.userId;
+    
+
 
     if (!userId) {
       return res.status(401).json({
@@ -161,6 +163,10 @@ class CartController {
         message: "Thiếu thông tin sản phẩm.",
       });
     }
+
+
+
+
 
     try {
       let customBox = await CustomBox.findOne({ userId }).populate(
@@ -234,6 +240,12 @@ class CartController {
     }
   }
 
+
+
+
+
+  
+
   async plus(req, res) {
     const { itemId } = req.body;
     const userId = req.session.userId;
@@ -251,6 +263,11 @@ class CartController {
         message: "Thiếu thông tin sản phẩm.",
       });
     }
+
+
+
+
+
 
     try {
       let customBox = await CustomBox.findOne({ userId }).populate(
@@ -320,6 +337,44 @@ class CartController {
       });
     }
   }
+
+
+
+  
+  async resetCart(req, res) {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ success: false, message: "Bạn cần đăng nhập." });
+
+    try {
+        await CustomBox.findOneAndUpdate(
+            { userId }, 
+            { items: [], totalQuantity: 0, totalPrice: "0 VND" }
+        );
+        res.json({ success: true, message: "Giỏ hàng đã được reset!" });
+    } catch (error) {
+        console.error("Lỗi reset giỏ hàng:", error);
+        res.status(500).json({ success: false, message: "Lỗi khi reset giỏ hàng." });
+    }
+}
+
+
+
+
 }
 
 module.exports = new CartController();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

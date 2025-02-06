@@ -10,6 +10,9 @@ router.get('/mes', cartControllers.showCustomMes);
 
 router.post('/minus', cartControllers.minus);
 router.post('/plus', cartControllers.plus);
+router.post('/reset-cart', cartControllers.resetCart);
+
+
 
 // router.post('/minus', cartControllers.minus);
 // router.post('/payment', cartControllers.payment);

@@ -20,35 +20,32 @@
         <div class="col-md-6 product-container">
           <h3>Chọn sản phẩm</h3>
 
-          {{!--
           {{#if products.length}}
           {{#each products}}
-          <div class="col-md-6 product-container">
-            <div class="product-card">
-              <img src="{{this.image}}" alt="{{this.name}}" class="product-img">
-              <div class="product-description">
-                <p>{{this.name}}</p>
-                <p class="product-price">Giá: {{this.price}}</p>
-                <div class="product-quantity-container">
-                  <input type="hidden" class="item-id" value="{{this._id}}">
-                  <button class="btn-minus" data-action="subtract" data-product-id="{{this._id}}">-</button>
-                  <span class="quantity-display" data-product-id="{{this._id}}">
-                    {{findQuantity customBox.items this._id}}
-                  </span>
-                  <button class="btn-plus" data-action="add" data-product-id="{{this._id}}">+</button>
 
-                </div>
+          <div class="product-card">
+            <img src="{{this.image}}" alt="{{this.name}}" class="product-img" />
+            <div class="product-description">
+              <p>{{this.name}}</p>
+              <p class="product-price">Giá: {{this.price}}</p>
+              <div class="product-quantity-container">
+                <input type="hidden" class="item-id" value="{{this._id}}" />
+                <button class="btn-minus" data-action="subtract" data-product-id="{{this._id}}">-</button>
+                <span class="quantity-display" data-product-id="{{this._id}}">
+                  {{findQuantity customBox.items this._id}}
+                </span>
+                <button class="btn-plus" data-action="add" data-product-id="{{this._id}}">+</button>
               </div>
             </div>
           </div>
+
           {{/each}}
           {{else}}
           <p>Hiện tại không có sản phẩm trong kho</p>
-          {{/if}} --}}
+          {{/if}}
 
-
-{{!-- Tạm --}}
-          <div class="product-card">
+          {{! Tạm }}
+          {{! <div class="product-card">
             <img src=" https://i.ytimg.com/vi/jRnBvlMUvK0/maxresdefault.jpg" alt="Product 1" class="product-img" />
             <div class="product-description">
               <p>Gấu bông nhỏ</p>
@@ -79,23 +76,20 @@
               <input type="number" value="0" min="0" id="product3-quantity" class="product-quantity"
                 onchange="updateSelectedProducts()" />
             </div>
+          </div> }}
+
+          {{! }}
+        </div>
+
+        {{log customBox.items}}
+
+        <div class="col-md-6">
+          <h3>Sản phẩm được chọn</h3>
+          <div id="selected-products" class="selected-summary">
+            <h5>Chưa có sản phẩm nào được chọn.</h5>
           </div>
         </div>
-    
-
-{{!--  --}}
-
-
-      {{log customBox.items}}
-
-      <div class="col-md-6">
-        <h3>Sản phẩm được chọn</h3>
-        <div id="selected-products" class="selected-summary">
-          <h5>Chưa có sản phẩm nào được chọn.</h5>
-        </div>
       </div>
-  </div>
-
 
       <div class="text-center"><a href="/custom-gifts/box">
 
@@ -161,6 +155,19 @@
             alert("Có lỗi xảy ra.");
           }
     });
-  });
+  }); 
+  
 
+window.addEventListener("load", async () => {
+    try {
+        const response = await fetch("/custom-gifts/reset-cart", { method: "POST" });
+        const data = await response.json();
+        console.log("Giỏ hàng đã reset:", data.message);
+    } catch (error) {
+        console.error("Lỗi reset giỏ hàng:", error);
+    }
+});
+
+  
+  
 </script>

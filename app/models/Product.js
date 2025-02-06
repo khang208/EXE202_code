@@ -31,4 +31,4 @@ Product.plugin(mongooseDelete, {
     indexFields: 'all',
 });
 
-module.exports = mongoose.model('products', Product);
+module.exports = mongoose.model('Product', Product);
